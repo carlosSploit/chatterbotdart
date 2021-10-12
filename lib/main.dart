@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'views/insideView.dart';
-import 'messegeview/view/messegeview.dart';
+import 'view/views/insideView.dart';
+import 'view/messegeview/view/messegeview.dart';
 //import 'package:whatsappfrond/messegeview/view/messegeview.dart';
 //import 'package:whatsappfrond/perfilview/view/perfildview.dart';
 

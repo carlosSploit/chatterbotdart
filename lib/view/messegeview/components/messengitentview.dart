@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '/visualimageview/view/mainvisualimage.dart';
+import '../../visualimageview/view/mainvisualimage.dart';
 
 class messengitentview extends StatefulWidget {
   int cant = 0;
@@ -22,9 +22,13 @@ class messengitentbody extends State<messengitentview> {
 
   @override
   Widget build(BuildContext context) {
-    double lenthmesssege = widget.messege.length.toDouble();
+    var messeng = (widget.messege.indexOf("https") != -1)
+        ? widget.messege.split("#")[0]
+        : widget.messege;
+    double lenthmesssege = messeng.length.toDouble();
     // ******************   mensaje    ***********************
     var size = MediaQuery.of(context).size;
+
     return Container(
       color: widget.backselect,
       width: size.width,
@@ -59,7 +63,7 @@ class messengitentbody extends State<messengitentview> {
               padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: (widget.messege.length > 24)
+                crossAxisAlignment: (messeng.length > 24)
                     ? CrossAxisAlignment.end
                     : CrossAxisAlignment.start,
                 mainAxisAlignment: (widget.tipo != "R")
@@ -75,9 +79,9 @@ class messengitentbody extends State<messengitentview> {
                               margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
                               height: 45,
                               padding: EdgeInsets.fromLTRB(15, 2, 0, 2),
-                              width: (widget.messege.length > 24)
+                              width: (messeng.length > 24)
                                   ? (23 * 10)
-                                  : ((widget.messege.length * 8) + (8 * 10)),
+                                  : ((messeng.length * 8) + (8 * 10)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -144,7 +148,7 @@ class messengitentbody extends State<messengitentview> {
                           child: Container(
                             margin: EdgeInsets.fromLTRB(5, 0, 0, 2),
                             child: Text(
-                              widget.messege.toString(),
+                              messeng.toString(),
                               style: TextStyle(
                                 color: (widget.tipo != "E")
                                     ? Colors.white
@@ -192,7 +196,7 @@ class messengitentbody extends State<messengitentview> {
                         Container(
                           margin: EdgeInsets.fromLTRB(5, 0, 0, 5),
                           child: Text(
-                            widget.messege.toString(),
+                            messeng.toString(),
                             style: TextStyle(
                               color: (widget.tipo != "E")
                                   ? Colors.white

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '/messegeview/components/botonsopciview.dart';
-import '/messegeview/components/messengitentview.dart';
-import '/my_flutter_app_icons.dart';
+import '../../messegeview/components/messengitentview.dart';
 import '/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -44,36 +42,6 @@ class messegebody extends State<messegeview> {
     band = !band;
   }
 
-  void responder(int id) {
-    setState(() {});
-    // recorre la lista y verifica si exite o no un itent
-    int existe = -2; // posicion del intent intgresado
-    if (this.identif.length != 0) {
-      existe = this.identif.indexWhere((item) => item == id);
-    } else {
-      bandespo = true;
-      this.identif.add(id);
-      this.cantSelecx = 1.toString();
-    }
-    print(existe);
-    if (existe == -1) {
-      bandespo = true;
-      this.identif.add(id);
-    } else {
-      this.identif.removeAt(existe);
-      if (this.identif.length == 0) {
-        bandespo = !bandespo;
-      }
-    }
-
-    this.cantSelecx = this.identif.length.toString();
-
-    print("responder: " +
-        bandespo.toString() +
-        " pos: " +
-        this.identif.toString());
-  }
-
   @override
   Widget build(BuildContext context) {
     final TextEditingController _controllermesseg = TextEditingController();
@@ -86,33 +54,32 @@ class messegebody extends State<messegeview> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60.0), // here the desired height
           child: AppBar(
-            title: Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Align(
-                child: Row(
-                  children: <Widget>[
-                    InkWell(
-                      child: Container(
-                        height: 20,
-                        width: 90,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: Image.asset("src/logojon.png").image,
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyApp()),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                alignment: Alignment.center,
+            leading: IconButton(
+              iconSize: 30,
+              icon: Icon(
+                Icons.menu,
+                color: Colors.grey.shade400,
+                size: 30,
               ),
+              onPressed: () {},
+            ),
+            title: InkWell(
+              child: Container(
+                height: 20,
+                width: 100,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: Image.asset("src/logojon.png").image,
+                  ),
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                );
+              },
             ),
             elevation: 1,
             backgroundColor: Colors.grey.shade100,
@@ -122,10 +89,10 @@ class messegebody extends State<messegeview> {
                 child: Container(
                   margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
                   child: Text(
-                    "Carlos Arturo",
+                    "Carlos",
                     style: TextStyle(
-                      color: Colors.grey.shade600.withOpacity(0.6),
-                      fontSize: 14,
+                      color: Colors.grey.shade600.withOpacity(0.7),
+                      fontSize: 15,
                     ),
                   ),
                 ),
@@ -195,10 +162,6 @@ class messegebody extends State<messegeview> {
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25),
                       ),
-                      // image: DecorationImage(
-                      //   fit: BoxFit.cover,
-                      //   image: Image.asset("src/background.png").image,
-                      // ),
                     ),
                     child: Column(
                       children: <Widget>[

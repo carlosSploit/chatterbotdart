@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../../messegeview/view/mainmesseg.dart';
-import '../../main.dart';
-import '../../my_flutter_app_icons.dart';
+import '../../../main.dart';
+import '../../../my_flutter_app_icons.dart';
 
 class visualimageview extends StatefulWidget {
   @override

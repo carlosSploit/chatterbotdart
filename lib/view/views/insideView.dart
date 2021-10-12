@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '../../components/estadospeview.dart';
-import '../../components/estadosaddview.dart';
+import '../components/estadospeview.dart';
+import '../components/estadosaddview.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class insideView extends StatefulWidget {
