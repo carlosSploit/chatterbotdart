@@ -17,9 +17,11 @@ class messegebody extends State<messegeview> {
   bool bandespo = false; // ayuda a vizualizar los botones
   bool bandespocont = false; // ayuda a vizualizar los botones
   bool stado = false;
+  bool cargado = false;
   List<int> identif = [];
   String cantSelecx = "0";
   late messegemodel msmod;
+  late List<messeg> messg; //lista de mensajes de la conver
 
   late TextEditingController textEditingController =
       TextEditingController(text: "");
@@ -39,13 +41,25 @@ class messegebody extends State<messegeview> {
       });
       //print('Listener fired ${textEditingController.text}');
     });
+    messg = [
+      messeg.fromJson({
+        "messeg": "Hola me llamo Sofia, y sere tu asistente en estos momentos",
+        "tipo": "R"
+      })
+    ];
     msmod = messegemodel();
-    correct();
   }
 
-  void correct() async {
-    messeg men = await msmod.read({"emisor": "hola que tal"});
-    print(men.getcontenmesseg);
+  void insertmesseg(String emisor) async {
+    setState(() {
+      messg.add(messeg.fromJson({"messeg": emisor, "tipo": "E"}));
+      this.cargado = true;
+    });
+    messeg men = await msmod.read({"emisor": emisor});
+    setState(() {
+      this.cargado = false;
+      messg.add(men);
+    });
   }
 
   void actualizar() {
@@ -183,75 +197,23 @@ class messegebody extends State<messegeview> {
                                 padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                 height: (size.height - (higth * 2 + 24)),
                                 child: ListView(
-                                  children: <Widget>[
-                                    // **********************
-                                    messengitentview(
-                                        "",
-                                        2,
-                                        "R",
-                                        "",
-                                        "hola que tal weys",
-                                        Colors.transparent,
-                                        0),
-                                    messengitentview(
-                                        "",
-                                        2,
-                                        "R",
-                                        "R",
-                                        "hola que tal weys",
-                                        Colors.transparent,
-                                        0),
-                                    messengitentview(
-                                        "",
-                                        2,
-                                        "E",
-                                        "R",
-                                        "hola que tal weys como estas, que es de tu vida,",
-                                        Colors.transparent,
-                                        0),
-                                    messengitentview(
-                                        "",
-                                        2,
-                                        "R",
-                                        "E",
-                                        "hola que tal como estas queria decirte si hanias presentado el trabajo de conta pero no lo se",
-                                        Colors.transparent,
-                                        1),
-                                    messengitentview(
-                                        "",
-                                        2,
-                                        "E",
-                                        "R",
-                                        "hola que tal weys",
-                                        Colors.transparent,
-                                        0),
-                                    messengitentview(
-                                        "",
-                                        2,
-                                        "E",
-                                        "E",
-                                        "hola que tal como estas perro perro perro",
-                                        Colors.transparent,
-                                        0),
-                                    messengitentview(
-                                        "",
-                                        2,
-                                        "R",
-                                        "E",
-                                        "hola que tal weys",
-                                        Colors.transparent,
-                                        1),
-                                    messengitentview(
-                                        "",
-                                        2,
-                                        "E",
-                                        "R",
-                                        "hola que tal weys",
-                                        Colors.transparent,
-                                        0)
-                                    // *********************************
-                                  ],
-                                ),
+                                    children: messg
+                                        .asMap()
+                                        .map((i, e) => MapEntry(
+                                              i,
+                                              messengitentview(
+                                                  2,
+                                                  messg[i].gettipo,
+                                                  (i != 0)
+                                                      ? messg[i - 1].gettipo
+                                                      : "",
+                                                  messg[i].getcontenmesseg,
+                                                  Colors.transparent,
+                                                  0,
+                                                  messg[i].getinformacion),
+                                            ))
+                                        .values
+                                        .toList()),
                               ),
                             ],
                           ),
@@ -259,11 +221,22 @@ class messegebody extends State<messegeview> {
 
                         //**************** container de barra secundaria *********************
                         Container(
+                          margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                           height: Size.fromHeight(60.0).height,
                           alignment: Alignment.center,
                           child: Container(
                             child: Row(
                               children: <Widget>[
+                                (this.cargado)
+                                    ? Container(
+                                        width: 25,
+                                        height: 25,
+                                        child: Align(
+                                          child: CircularProgressIndicator(),
+                                          alignment: Alignment.center,
+                                        ),
+                                      )
+                                    : Container(),
                                 Expanded(
                                   child: Container(
                                     height: 50,
@@ -317,16 +290,23 @@ class messegebody extends State<messegeview> {
                                     child: Row(
                                       children: <Widget>[
                                         Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 0, 10, 0),
                                           height: 48,
                                           width: 48,
                                           child: (this.bandmes)
-                                              ? Icon(
-                                                  FontAwesomeIcons
-                                                      .solidPaperPlane,
-                                                  color: Colors.white,
-                                                  size: 20,
+                                              ? InkWell(
+                                                  child: Icon(
+                                                    FontAwesomeIcons
+                                                        .solidPaperPlane,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
+                                                  onTap: () {
+                                                    insertmesseg(
+                                                        textEditingController
+                                                            .text);
+                                                    textEditingController.text =
+                                                        "";
+                                                  },
                                                 )
                                               : Icon(
                                                   Icons.mic_outlined,

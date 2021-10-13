@@ -43,7 +43,7 @@ class inmueble {
       Map<String, dynamic> body = json['img'];
       for (var i = 0; i < 6; i++) {
         if (body.containsKey("$i")) {
-          imglist = body["$i"];
+          imglist.add(body["$i"]);
         }
       }
     }
