@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'view/views/insideView.dart';
 import 'view/messegeview/view/messegeview.dart';
-//import 'package:whatsappfrond/messegeview/view/messegeview.dart';
-//import 'package:whatsappfrond/perfilview/view/perfildview.dart';
 
 void main() {
+  //HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
 }
 

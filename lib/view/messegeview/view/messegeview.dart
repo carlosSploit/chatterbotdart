@@ -1,3 +1,5 @@
+import 'package:chatbotdart/controller/messeg.dart';
+import 'package:chatbotdart/model/messegemodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../../messegeview/components/messengitentview.dart';
@@ -17,6 +19,8 @@ class messegebody extends State<messegeview> {
   bool stado = false;
   List<int> identif = [];
   String cantSelecx = "0";
+  late messegemodel msmod;
+
   late TextEditingController textEditingController =
       TextEditingController(text: "");
 
@@ -35,6 +39,13 @@ class messegebody extends State<messegeview> {
       });
       //print('Listener fired ${textEditingController.text}');
     });
+    msmod = messegemodel();
+    correct();
+  }
+
+  void correct() async {
+    messeg men = await msmod.read({"emisor": "hola que tal"});
+    print(men.getcontenmesseg);
   }
 
   void actualizar() {
