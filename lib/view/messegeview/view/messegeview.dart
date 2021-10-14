@@ -22,6 +22,7 @@ class messegebody extends State<messegeview> {
   String cantSelecx = "0";
   late messegemodel msmod;
   late List<messeg> messg; //lista de mensajes de la conver
+  String imagenpro = "src/parpadeo.gif";
 
   late TextEditingController textEditingController =
       TextEditingController(text: "");
@@ -58,6 +59,16 @@ class messegebody extends State<messegeview> {
     setState(() {
       this.cargado = false;
       messg.add(men);
+      imagenpro = "src/hablar.gif";
+    });
+    Future.delayed(
+        Duration(
+          days: 0,
+          milliseconds: (110 * men.getcontenmesseg.length),
+        ), () {
+      setState(() {
+        imagenpro = "src/parpadeo.gif";
+      });
     });
   }
 
@@ -159,14 +170,10 @@ class messegebody extends State<messegeview> {
                         width: 190,
                         child: Align(
                           alignment: Alignment.topCenter,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image:
-                                      Image.asset("src/avatar/parpadeo16.jpg")
-                                          .image),
-                            ),
+                          child: Image.asset(
+                            imagenpro,
+                            height: 250,
+                            width: 190,
                           ),
                         ),
                       ),

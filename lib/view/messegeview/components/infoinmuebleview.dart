@@ -1,4 +1,5 @@
 import 'package:chatbotdart/controller/inmueble.dart';
+import 'package:chatbotdart/view/messegeview/components/visualizarimage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -88,18 +89,24 @@ class infoinmueblebody extends State<infoinmuebleview> {
                         Expanded(
                           flex: 4,
                           child: Align(
-                            child: Container(
-                              height: 20,
-                              padding: EdgeInsets.fromLTRB(6, 2, 6, 2),
-                              child: Text(
-                                "Imagenes",
-                                style: TextStyle(
-                                  color: Colors.white,
+                            child: InkWell(
+                              child: Container(
+                                height: 20,
+                                padding: EdgeInsets.fromLTRB(6, 2, 6, 2),
+                                child: Text(
+                                  "Imagenes",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFF0c84fc),
+                                    borderRadius: BorderRadius.circular(14)),
                               ),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFF0c84fc),
-                                  borderRadius: BorderRadius.circular(14)),
+                              onTap: () {
+                                // visualizarimage().createDialog(
+                                //     context, widget.inmu.getimglist);
+                              },
                             ),
                             alignment: Alignment.topRight,
                           ),
