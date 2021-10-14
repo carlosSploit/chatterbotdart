@@ -53,7 +53,7 @@ class messengitentbody extends State<messengitentview> {
                     color: Colors.amber,
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                         image: Image.asset("src/perfil.jpg").image),
                   ),
                 )

@@ -82,8 +82,6 @@ class messegebody extends State<messegeview> {
     final TextEditingController _controllermesseg = TextEditingController();
     var size = MediaQuery.of(context).size;
     var higth = Size.fromHeight(60.0).height;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -157,28 +155,37 @@ class messegebody extends State<messegeview> {
           children: [
             Container(
               height: size.height - 90,
-              color: Colors.white,
               child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    height: (size.height - 150) / 2,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        height: 250,
-                        width: 190,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Image.asset(
-                            imagenpro,
-                            height: 250,
-                            width: 190,
-                          ),
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: (size.height) / 2,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      height: (size.height - 150) / 2,
+                      width: ((size.height - 150) / 2) - 60,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(
+                          imagenpro,
+                          height: (size.height - 150) / 2,
+                          width: ((size.height - 150) / 2) - 60,
                         ),
                       ),
                     ),
-                  )),
+                  ),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: Image.network(
+                              "https://images3.alphacoders.com/105/1057717.jpg")
+                          .image,
+                    ),
+                  ),
+                ),
+              ),
             ),
             Container(
               height: size.height - 90,
@@ -188,7 +195,7 @@ class messegebody extends State<messegeview> {
                 child: Container(
                   height: (size.height - 70) / 2,
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade400.withOpacity(0.2),
+                    color: Colors.grey.shade200,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
