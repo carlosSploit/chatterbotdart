@@ -26,6 +26,7 @@ class inmueble {
 
   int get getidmesseg => idinmueble;
   String get getnombre => nombre;
+  String get getcosto => costo;
   String get getlocalizacion => localizacion;
   String get geturlloque => urlloque;
   List<String> get getimglist => imglist;

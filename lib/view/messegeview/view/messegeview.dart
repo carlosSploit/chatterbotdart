@@ -209,7 +209,10 @@ class messegebody extends State<messegeview> {
                                                 messg[i].getcontenmesseg,
                                                 Colors.transparent,
                                                 0,
-                                                messg[i].getinformacion),
+                                                messg[i].getinformacion,
+                                                (messg[i].getinformacion)
+                                                    ? messg[i].getlistainmueble
+                                                    : []),
                                           ))
                                       .values
                                       .toList()),
