@@ -64,7 +64,7 @@ class messegebody extends State<messegeview> {
     Future.delayed(
         Duration(
           days: 0,
-          milliseconds: (110 * men.getcontenmesseg.length),
+          milliseconds: (80 * men.getcontenmesseg.length),
         ), () {
       setState(() {
         imagenpro = "src/parpadeo.gif";
@@ -140,7 +140,7 @@ class messegebody extends State<messegeview> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       fit: BoxFit.fill,
-                      image: Image.asset("src/perfil.jpg").image),
+                      image: Image.asset("src/img1.jpg").image),
                 ),
               ),
               onPressed: () {},
