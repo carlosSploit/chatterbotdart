@@ -4,6 +4,7 @@ class messeg {
   int idmesseg = 0;
   String contenmesseg = "";
   String tipo = "";
+  String tipolistinmueble = "";
   bool informacion = false;
   List<inmueble> listainmueble = [];
 
@@ -12,6 +13,7 @@ class messeg {
   String get gettipo => tipo;
   bool get getinformacion => informacion;
   List<inmueble> get getlistainmueble => listainmueble;
+  String get gettipolistinmueble => tipolistinmueble;
 
   messeg.fromJson(Map<String, dynamic> json) {
     idmesseg = (json.containsKey("id")) ? json["id"] : 0;
@@ -40,6 +42,7 @@ class messeg {
               listainmueble.add(inmueble.fromJson(body["$i"]));
             }
           }
+          tipolistinmueble = "Recomend";
           break;
         case 2:
           Map<String, dynamic> body = json['Favorit'];
@@ -48,6 +51,7 @@ class messeg {
               listainmueble.add(inmueble.fromJson(body["$i"]));
             }
           }
+          tipolistinmueble = "Favorit";
           break;
         case 3:
           Map<String, dynamic> body = json['Comprar'];
@@ -56,6 +60,7 @@ class messeg {
               listainmueble.add(inmueble.fromJson(body["$i"]));
             }
           }
+          tipolistinmueble = "Comprar";
           break;
         case 4:
           Map<String, dynamic> body = json['alquiler'];
@@ -64,6 +69,7 @@ class messeg {
               listainmueble.add(inmueble.fromJson(body["$i"]));
             }
           }
+          tipolistinmueble = "alquiler";
           break;
         default:
       }

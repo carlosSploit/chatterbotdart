@@ -1,5 +1,6 @@
 import 'package:chatbotdart/controller/inmueble.dart';
 import 'package:chatbotdart/view/messegeview/components/infoinmuebleview.dart';
+import 'package:chatbotdart/view/messegeview/components/visualizarimage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -10,11 +11,29 @@ class messengitentview extends StatefulWidget {
   Color backselect = Colors.transparent;
   int repons = 0;
   String siguiente = "";
+  //#################################
   late List<inmueble> inmuu = [];
+  late String tipolistinmuu;
+  //#################################
   bool listestade = false; // verifica que si hay una lista de inmuebles
 
-  messengitentview(this.cant, this.tipo, this.siguiente, this.messege,
-      this.backselect, this.repons, this.listestade, this.inmuu);
+  Map<String, dynamic> url = {
+    "Recomend": "https://gojom.pe/",
+    "Favorit": "https://gojom.pe/",
+    "Comprar": "https://gojom.pe/compra/inmueble?o=mas-baratos",
+    "alquiler": "https://gojom.pe/alquiler/inmueble?o=mas-baratos"
+  };
+
+  messengitentview(
+      this.cant,
+      this.tipo,
+      this.siguiente,
+      this.messege,
+      this.backselect,
+      this.repons,
+      this.listestade,
+      this.inmuu,
+      this.tipolistinmuu);
 
   @override
   messengitentbody createState() => messengitentbody();
@@ -284,18 +303,29 @@ class messengitentbody extends State<messengitentview> {
             Container(
               padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
               margin: EdgeInsets.fromLTRB(65, 0, 0, 0),
-              child: Container(
-                width: (size.width / 2) + 60,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Ver mas informacion",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600),
+              child: InkWell(
+                child: Container(
+                  width: (size.width / 2) + 60,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Ver mas informacion",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => visualizarimage(
+                            widget.url[widget.tipolistinmuu],
+                            widget.tipolistinmuu)),
+                  );
+                },
               ),
               decoration: BoxDecoration(
                 color: Color(0xFF0c84fc),

@@ -1,5 +1,6 @@
 import 'package:chatbotdart/controller/messeg.dart';
 import 'package:chatbotdart/model/messegemodel.dart';
+import 'package:chatbotdart/view/components/inserproductoview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../../messegeview/components/messengitentview.dart';
@@ -43,7 +44,8 @@ class messegebody extends State<messegeview> {
     });
     messg = [
       messeg.fromJson({
-        "messeg": "Hola me llamo Sofia, y sere tu asistente en estos momentos",
+        "messeg":
+            "Hola me llamo Sofia, y sere tu asistente en estos momentos \npalabras clabe: \n* Quiero alquilar un inmuble\n* Quiero comprarr un inmuble\n* Tengo un problema con mi inmueble",
         "tipo": "R"
       })
     ];
@@ -56,10 +58,34 @@ class messegebody extends State<messegeview> {
       this.cargado = true;
     });
     messeg men = await msmod.read({"emisor": emisor});
+
     setState(() {
       this.cargado = false;
       messg.add(men);
       imagenpro = "src/hablar.gif";
+      if (men.getcontenmesseg.toLowerCase() !=
+          "Rellena el siguiente formulario") {
+        inserproductoview((a) {
+          setState(() {
+            this.cargado = false;
+            messg.add(messeg.fromJson({
+              "messeg": "El formulario se a ingresado correctamente",
+              "tipo": "R"
+            }));
+            imagenpro = "src/hablar.gif";
+          });
+          //apagar la animacion que se encuentra ejecuandoce
+          Future.delayed(
+              Duration(
+                days: 0,
+                milliseconds: (80 * men.getcontenmesseg.length),
+              ), () {
+            setState(() {
+              imagenpro = "src/parpadeo.gif";
+            });
+          });
+        }).createDialog(context);
+      }
     });
     Future.delayed(
         Duration(
@@ -226,7 +252,8 @@ class messegebody extends State<messegeview> {
                                                 messg[i].getinformacion,
                                                 (messg[i].getinformacion)
                                                     ? messg[i].getlistainmueble
-                                                    : []),
+                                                    : [],
+                                                messg[i].gettipolistinmueble),
                                           ))
                                       .values
                                       .toList()),
