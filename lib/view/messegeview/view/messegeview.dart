@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import '../../messegeview/components/messengitentview.dart';
 import '/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class messegeview extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class messegebody extends State<messegeview> {
   bool cargado = false;
   List<int> identif = [];
   String cantSelecx = "0";
+  late User uss;
   late messegemodel msmod;
   late List<messeg> messg; //lista de mensajes de la conver
   String imagenpro = "src/parpadeo.gif";
@@ -103,11 +105,18 @@ class messegebody extends State<messegeview> {
     band = !band;
   }
 
+  void botar_datos() async {}
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController _controllermesseg = TextEditingController();
     var size = MediaQuery.of(context).size;
     var higth = Size.fromHeight(60.0).height;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final userCredential = _auth.currentUser;
+    uss = userCredential as User;
+    print(uss.displayName);
+    print(uss.photoURL);
 
     return Scaffold(
       appBar: PreferredSize(
@@ -148,7 +157,7 @@ class messegebody extends State<messegeview> {
               child: Container(
                 margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
                 child: Text(
-                  "Carlos",
+                  "${(this.uss.displayName as String).split(" ")[0]}",
                   style: TextStyle(
                     color: Colors.grey.shade600.withOpacity(0.7),
                     fontSize: 15,
@@ -164,9 +173,10 @@ class messegebody extends State<messegeview> {
                 width: 40,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  color: Colors.grey.shade300,
                   image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: Image.asset("src/img1.jpg").image),
+                      fit: BoxFit.cover,
+                      image: Image.network("${this.uss.photoURL}").image),
                 ),
               ),
               onPressed: () {},
