@@ -35,14 +35,17 @@ class estadospebody extends State<estadospeview> {
                     //image de contenido
                     child: Center(
                       child: Container(
-                          width: (60.toDouble() - 3),
-                          height: (60.toDouble() - 3),
-                          decoration: new BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: new DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: new NetworkImage(
-                                      "https://i.imgur.com/BoN9kdC.png")))),
+                        width: (60.toDouble() - 3),
+                        height: (60.toDouble() - 3),
+                        decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: new NetworkImage(
+                                "https://i.imgur.com/BoN9kdC.png"),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

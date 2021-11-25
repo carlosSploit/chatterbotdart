@@ -7,6 +7,10 @@ import '../../messegeview/components/messengitentview.dart';
 import '/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// text to speach
+import 'package:flutter_tts/flutter_tts.dart';
+// speach to text
+import 'package:speech_to_text/speech_to_text.dart';
 
 class messegeview extends StatefulWidget {
   @override
@@ -26,9 +30,18 @@ class messegebody extends State<messegeview> {
   late messegemodel msmod;
   late List<messeg> messg; //lista de mensajes de la conver
   String imagenpro = "src/parpadeo.gif";
+  final FlutterTts flutterTts = FlutterTts(); //variables para el text_to_speach
+  static final _speech = SpeechToText(); //variables para el speach_to_speach
+  bool isspeack = true; // identifica que si quiere que hable o no.
+  bool isListener = false; // valida si esta escuchando al usuario
+  String textconten = ""; //contenedor de texto de lo hablado
 
   late TextEditingController textEditingController =
       TextEditingController(text: "");
+
+  Future speack(String messege) async {
+    await flutterTts.speak("$messege");
+  }
 
   @override
   void initState() {
@@ -54,18 +67,44 @@ class messegebody extends State<messegeview> {
     msmod = messegemodel();
   }
 
+  //escucha lo que se esta hablando el usuario
+  listenSpeach() async {
+    if (!isListener) {
+      bool available = await _speech.initialize(
+          onStatus: (val) => print('onStatus: $val'),
+          onError: (val) => print('onStatus: $val'));
+      // combprueba si se esta escuchando;
+      if (available) {
+        _speech.listen(
+          onResult: (value) => setState(
+            () {
+              textconten = value.recognizedWords;
+              if (value.hasConfidenceRating && value.confidence > 0) {}
+            },
+          ),
+        );
+      } else {
+        setState(() => isListener = false);
+        _speech.stop();
+      }
+    }
+  }
+
   void insertmesseg(String emisor) async {
     setState(() {
       messg.add(messeg.fromJson({"messeg": emisor, "tipo": "E"}));
       this.cargado = true;
     });
     messeg men = await msmod.read({"emisor": emisor});
-
+    //----------------------------------------------------------------
+    if (isspeack)
+      await speack(men.getcontenmesseg); //manda hablar a la aplicacion
+    //----------------------------------------------------------------
     setState(() {
       this.cargado = false;
       messg.add(men);
-      imagenpro = "src/hablar.gif";
-      if (men.getcontenmesseg.toLowerCase() !=
+      imagenpro = (isspeack) ? "src/hablar.gif" : "src/parpadeo.gif";
+      if (men.getcontenmesseg.toLowerCase() ==
           "Rellena el siguiente formulario") {
         inserproductoview((a) {
           setState(() {
@@ -74,18 +113,20 @@ class messegebody extends State<messegeview> {
               "messeg": "El formulario se a ingresado correctamente",
               "tipo": "R"
             }));
-            imagenpro = "src/hablar.gif";
+            imagenpro = (isspeack) ? "src/hablar.gif" : "src/parpadeo.gif";
           });
           //apagar la animacion que se encuentra ejecuandoce
           Future.delayed(
-              Duration(
-                days: 0,
-                milliseconds: (80 * men.getcontenmesseg.length),
-              ), () {
-            setState(() {
-              imagenpro = "src/parpadeo.gif";
-            });
-          });
+            Duration(
+              days: 0,
+              milliseconds: (80 * men.getcontenmesseg.length),
+            ),
+            () {
+              setState(() {
+                imagenpro = "src/parpadeo.gif";
+              });
+            },
+          );
         }).createDialog(context);
       }
     });
@@ -105,7 +146,66 @@ class messegebody extends State<messegeview> {
     band = !band;
   }
 
-  void botar_datos() async {}
+  Widget botondolarpen() {
+    return InkWell(
+      onTap: () {
+        isspeack = !(isspeack);
+        setState(() {});
+      },
+      child: Container(
+        alignment: Alignment.center,
+        child: Container(
+          margin: EdgeInsets.only(left: 15, right: 5),
+          height: 30,
+          width: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  child: Center(
+                    child: Icon(
+                      Icons.record_voice_over_outlined,
+                      color: (isspeack) ? Color(0xFF0c84fc) : Colors.white,
+                      size: 15,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    color: (isspeack) ? Colors.white : Color(0xFF0c84fc),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  child: Center(
+                    child: Icon(
+                      Icons.voice_over_off_outlined,
+                      color: (isspeack) ? Colors.white : Color(0xFF0c84fc),
+                      size: 15,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    color: (isspeack) ? Color(0xFF0c84fc) : Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              )
+            ],
+          ),
+          decoration: BoxDecoration(
+            color: Color(0xFF0c84fc),
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +252,7 @@ class messegebody extends State<messegeview> {
           elevation: 1,
           backgroundColor: Colors.grey.shade100,
           actions: <Widget>[
+            botondolarpen(),
             Align(
               alignment: Alignment.center,
               child: Container(
@@ -358,9 +459,15 @@ class messegebody extends State<messegeview> {
                                                       "";
                                                 },
                                               )
-                                            : Icon(
-                                                Icons.mic_outlined,
-                                                color: Colors.white,
+                                            : InkWell(
+                                                child: Icon(
+                                                  Icons.mic_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                                onTap: () async {
+                                                  // await listenSpeach();
+                                                  // insertmesseg(this.textconten);
+                                                },
                                               ),
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
