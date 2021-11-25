@@ -10,7 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // text to speach
 import 'package:flutter_tts/flutter_tts.dart';
 // speach to text
-import 'package:speech_to_text/speech_to_text.dart';
+//import 'package:speech_to_text/speech_to_text.dart';
 
 class messegeview extends StatefulWidget {
   @override
@@ -31,7 +31,7 @@ class messegebody extends State<messegeview> {
   late List<messeg> messg; //lista de mensajes de la conver
   String imagenpro = "src/parpadeo.gif";
   final FlutterTts flutterTts = FlutterTts(); //variables para el text_to_speach
-  static final _speech = SpeechToText(); //variables para el speach_to_speach
+  //static final _speech = SpeechToText(); //variables para el speach_to_speach
   bool isspeack = true; // identifica que si quiere que hable o no.
   bool isListener = false; // valida si esta escuchando al usuario
   String textconten = ""; //contenedor de texto de lo hablado
@@ -68,27 +68,27 @@ class messegebody extends State<messegeview> {
   }
 
   //escucha lo que se esta hablando el usuario
-  listenSpeach() async {
-    if (!isListener) {
-      bool available = await _speech.initialize(
-          onStatus: (val) => print('onStatus: $val'),
-          onError: (val) => print('onStatus: $val'));
-      // combprueba si se esta escuchando;
-      if (available) {
-        _speech.listen(
-          onResult: (value) => setState(
-            () {
-              textconten = value.recognizedWords;
-              if (value.hasConfidenceRating && value.confidence > 0) {}
-            },
-          ),
-        );
-      } else {
-        setState(() => isListener = false);
-        _speech.stop();
-      }
-    }
-  }
+  // listenSpeach() async {
+  //   if (!isListener) {
+  //     bool available = await _speech.initialize(
+  //         onStatus: (val) => print('onStatus: $val'),
+  //         onError: (val) => print('onStatus: $val'));
+  //     // combprueba si se esta escuchando;
+  //     if (available) {
+  //       _speech.listen(
+  //         onResult: (value) => setState(
+  //           () {
+  //             textconten = value.recognizedWords;
+  //             if (value.hasConfidenceRating && value.confidence > 0) {}
+  //           },
+  //         ),
+  //       );
+  //     } else {
+  //       setState(() => isListener = false);
+  //       _speech.stop();
+  //     }
+  //   }
+  // }
 
   void insertmesseg(String emisor) async {
     setState(() {
