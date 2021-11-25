@@ -3,6 +3,7 @@ import 'package:chatbotdart/model/messegemodel.dart';
 import 'package:chatbotdart/view/components/inserproductoview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import '../../messegeview/components/messengitentview.dart';
 import '/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,7 +30,7 @@ class messegebody extends State<messegeview> {
   late User uss;
   late messegemodel msmod;
   late List<messeg> messg; //lista de mensajes de la conver
-  String imagenpro = "src/parpadeo.gif";
+  String imagenpro = "src/parpadeo.gif"; // Avatar del personaje gif
   final FlutterTts flutterTts = FlutterTts(); //variables para el text_to_speach
   //static final _speech = SpeechToText(); //variables para el speach_to_speach
   bool isspeack = true; // identifica que si quiere que hable o no.
@@ -105,7 +106,7 @@ class messegebody extends State<messegeview> {
       messg.add(men);
       imagenpro = (isspeack) ? "src/hablar.gif" : "src/parpadeo.gif";
       if (men.getcontenmesseg.toLowerCase() ==
-          "Rellena el siguiente formulario") {
+          "rellena el siguiente formulario") {
         inserproductoview((a) {
           setState(() {
             this.cargado = false;
@@ -215,21 +216,70 @@ class messegebody extends State<messegeview> {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final userCredential = _auth.currentUser;
     uss = userCredential as User;
-    print(uss.displayName);
-    print(uss.photoURL);
+    // print(uss.displayName);
+    // print(uss.photoURL);
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0), // here the desired height
         child: AppBar(
-          leading: IconButton(
-            iconSize: 30,
+          leading: PopupMenuButton(
             icon: Icon(
               Icons.menu,
-              color: Colors.grey.shade400,
+              color: Color(0xff707070),
               size: 30,
             ),
-            onPressed: () {},
+            itemBuilder: (BuildContext conte) {
+              return [
+                PopupMenuItem(
+                    child: InkWell(
+                  onTap: () {
+                    _auth.signOut(); // cerrar sesiòn
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  },
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                          child: Icon(
+                            Icons.clear_all_sharp,
+                            color: Color(0xff707070),
+                          ),
+                        ),
+                        Container(
+                          child: Text("Cerrar sesiòn"),
+                        )
+                      ],
+                    ),
+                  ),
+                )),
+                PopupMenuItem(
+                  onTap: () {
+                    SystemNavigator.pop();
+                  },
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                          child: Icon(
+                            Icons.clear,
+                            color: Color(0xff707070),
+                          ),
+                        ),
+                        Container(
+                          child: Text("Cerrar aplicaciòn"),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ];
+            },
           ),
           title: InkWell(
             child: Container(
