@@ -1,15 +1,15 @@
 import 'package:chatbotdart/model/messegemodel.dart';
 import 'package:chatbotdart/controller/messeg.dart';
 
-class tdd{
+class tdd {
   messegemodel msbd = messegemodel();
 
   Future<messeg> read(Map<String, dynamic> jsonAtri) async {
     messeg msg = await msbd.read(jsonAtri);
-    if (msg != null){
+    if (msg != null) {
       print("Prueba exitosa");
-       return msg;
-    } else{
+      return msg;
+    } else {
       print("Prueba erronea bota un null");
       return messeg.fromJson({});
     }
@@ -20,7 +20,6 @@ class tdd{
   //}
 }
 
-void main() async {
-  tdd pruebas = tdd();
-  messeg msg = await pruebas.read({});
-}
+// void main() async {
+  
+// }
