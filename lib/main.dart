@@ -8,10 +8,10 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  tdd pruebas = tdd();
-  messeg msg = await pruebas.read({});
+  // tdd pruebas = tdd();
+  // messeg msg = await pruebas.read({});
   //HttpOverrides.global = new MyHttpOverrides();
-  //runApp(MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
